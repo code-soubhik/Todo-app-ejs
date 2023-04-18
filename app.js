@@ -1,3 +1,4 @@
+const { render } = require('ejs');
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -13,13 +14,22 @@ mongoose.connect(mongoUrl,{useNewUrlParser:true})
 
 app.set('view engine', 'ejs')
 
+app.get("/login",(req,res)=>{
+    res.render('login',{title:"Login - todo"})
+})
+
+app.get("/signup",(req,res)=>{
+    res.render('signup',{title:"signup - todo"})
+})
+
+
 app.get('/',(req,res)=>{
-    // let options = {weekday:"long",year:"numeric", month: 'long', day: 'numeric' };
-    // let date = new Date();
-    // let currentDay = date.toLocaleDateString("en-US", options);
+    let options = {weekday:"long",year:"numeric", month: 'long', day: 'numeric' };
+    let date = new Date();
+    let currentDay = date.toLocaleDateString("en-US", options);
     // console.log(currentDay)
     // res.send("Hello World");
-    res.render('Views/login')
+    res.render('home',{currentDay})
 })
 
 
