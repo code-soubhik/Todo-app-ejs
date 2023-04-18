@@ -7,6 +7,9 @@ const app = express();
 const port = process.env.PORT || 4444;
 const mongoUrl = "mongodb+srv://mytodo111:No89u9YyH4wikfrx@cluster0.bjtnivp.mongodb.net/Todo-app";
 
+let options = { weekday: "long", year: "numeric", month: 'long', day: 'numeric' };
+let date = new Date();
+let currentDay = date.toLocaleDateString("en-US", options);
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true })
     .then(() => { console.log("Connected To Database") })
@@ -24,44 +27,66 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // schema
 const userDetailsSchema = new mongoose.Schema(
     {
-        username: { type: String },
-        email: { type: String },
-        name: { type: String },
-        password: { type: String },
+        username: { type: String, unique: true, required: true },
+        email: { type: String, required: true },
+        name: { type: String, required: true },
+        password: { type: String, required: true },
     }, {
     collection: "userData"
 })
 
 const userModel = mongoose.model("userData", userDetailsSchema)
 app.post('/userregister', async (req, res) => {
-    // const { username, email, name, password, confirmPass } = req.body;
-    const name = req.body.nameField;    
+    const name = req.body.nameField;
     const username = req.body.userField;
     const email = req.body.emailField;
     const password = req.body.passwordField;
-    // const confirmPass = req.body.confirmPasswordField;
-    // res.send({status:"Ok"})
+    const confirmPass = req.body.confirmPasswordField;
 
-    try {
-        // const existingUser = await userModel.findOne({ username });
-        const existingUser = false;
-        if (existingUser) {
-            res.render('error',{status:"USER EXUST"});
+    if (password === confirmPass) {
+        try {
+            const existingUser = await userModel.findOne({ username });
+            if (existingUser) {
+                res.render('error', { status: "USER EXIST" });
+            }
+            else {
+                await userModel.create({
+                    username,
+                    email,
+                    name,
+                    password,
+                });
+                res.render('home', { currentDay });
+
+            }
+        } catch (error) {
+            console.log(error);
+            res.send({ status: "Please Try again" });
         }
-        else {
-            await userModel.create({
-                username,
-                email,
-                name,
-                password,
-            });
-            res.send({ status: "Ok" })
-        }
-    } catch (error) {
-        console.log(error)
-        res.send({ status: "error" });
     }
-    res.end()
+    else {
+        res.send("Password error");
+    }
+    res.end();
+})
+
+app.post("/userlogin", async (req, res) => {
+
+    const loginusername = req.body.inputField;
+    const loginpassword = req.body.passwordField;
+    const existingUser = await userModel.findOne({ loginusername });
+
+    if (existingUser) {
+        if (existingUser.password === loginpassword) {
+            res.render('home',{currentDay})
+        } else {
+            res.send({ Status: "Invalid password" });
+        }
+    }
+    else {
+        res.send({ Status: "Invalid username or password" });
+    }
+    res.end();
 })
 
 
@@ -75,11 +100,6 @@ app.get("/signup", (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    let options = { weekday: "long", year: "numeric", month: 'long', day: 'numeric' };
-    let date = new Date();
-    let currentDay = date.toLocaleDateString("en-US", options);
-    // console.log(currentDay)
-    // res.send("Hello World");
     res.render('home', { currentDay })
 })
 
