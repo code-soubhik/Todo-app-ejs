@@ -14,6 +14,31 @@
     <style>
         header>h1 {
             text-align: center;
+            margin-top: 5vh;
+            /* color: #0066ff; */
+            text-decoration: underline;
+        }
+        #TaskContainer{
+            width: 100%;
+            max-width: 75%;
+            padding: 15px;
+            margin: 5vh 0;
+            background-color: #d8deff;
+            border-radius: 10px;
+        }
+        main{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #addBtn{
+            max-width: 100px;
+            padding: 5px 0;
+        }
+        .btnContainer{
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
@@ -25,16 +50,26 @@
         </h1>
     </header>
     <main>
-        <form action="">
+        <form method="post" action="/addtask" id="TaskContainer">
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Task title</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <label for="titleControlInput" class="form-label">Task title</label>
+                <input type="text" class="form-control" id="titleControlInput" placeholder="Enter task title">
             </div>
             <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Task description</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <label for="descriptionControlInput" class="form-label">Task description</label>
+                <textarea class="form-control" id="descriptionControlInput" placeholder="Enter task description" rows="3"></textarea>
+            </div>
+            <div class="btnContainer">
+                <button class="w-100 btn btn-lg btn-primary" type="submit" id="addBtn">Add</button>
             </div>
         </form>
+
+        <div id="cardContainer">
+            <h3>Todos</h3>
+            <div class="card">
+                
+            </div>
+        </div>
 
     </main>
     <footer>
