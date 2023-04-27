@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include('../partial/head') %>
+<%- include('../partials/head') %>
 
 <body class="text-center">
 
     <main class="form-signin w-100 m-auto">
-        <form method="post" action="/userregister">
+        <form method="post" action="/users">
             <h1 class="heading">Todo</h1>
             <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
 
 
-            <%- include('../partial/input',{inputType:"text",id:"floatingName",placeholder:"Full Name",name:"nameField",labelAs:"Name"}) %>
+            <%- include('../partials/input',{inputType:"text",id:"floatingName",placeholder:"Full Name",name:"nameField",labelAs:"Name"}) %>
             
-            <%- include('../partial/input',{inputType:"text",id:"floatingemail",placeholder:"name@example.com",name:"emailField",labelAs:"Email address"}) %>
+            <%- include('../partials/input',{inputType:"text",id:"floatingemail",placeholder:"name@example.com",name:"emailField",labelAs:"Email address"}) %>
             
-            <%- include('../partial/input',{inputType:"text",id:"floatinguser",placeholder:"username",name:"userField",labelAs:"User name"}) %>
+            <%- include('../partials/input',{inputType:"text",id:"floatinguser",placeholder:"username",name:"userField",labelAs:"Username"}) %>
             
-            <%- include('../partial/input',{inputType:"password",id:"floatingPassword",placeholder:"Password",name:"passwordField",labelAs:"Password"}) %>
+            <%- include('../partials/input',{inputType:"password",id:"floatingPassword",placeholder:"Password",name:"passwordField",labelAs:"Password"}) %>
             
-            <%- include('../partial/input',{inputType:"password",id:"floatingConfirmPassword",placeholder:"Confirm password",name:"confirmPasswordField",labelAs:"Confirm password"}) %>
+            <%- include('../partials/input',{inputType:"password",id:"floatingConfirmPassword",placeholder:"Confirm password",name:"confirmPasswordField",labelAs:"Confirm password"}) %>
 
-            <%- include('../partial/formFooter',{accountStatus:"Already",link:"./login",linkLabel:"Login" ,btnText:"Signup"}) %>
+            <%- include('../partials/formFooter',{accountStatus:"Already",link:"./login",linkLabel:"Login" ,btnText:"Signup"}) %>
         </form>
     </main>
 

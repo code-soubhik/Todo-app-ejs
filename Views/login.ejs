@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include('../partial/head') %>
+<%- include('../partials/head') %>
 
 <body class="text-center">
 
     <main class="form-signin w-100 m-auto">
-        <form method="post" action="/userlogin">
+        <form method="get" action="/users">
             <h1 class="heading">Todo</h1>
             <h1 class="h3 mb-3 fw-normal">Please login</h1>
 
-            <%- include('../partial/input',{inputType:"text",id:"floatingInput",placeholder:"username",name:"userField",labelAs:"Username"}) %>
+            <%- include('../partials/input',{inputType:"text",id:"floatingInput",placeholder:"username",name:"userField",labelAs:"Username"}) %>
             
-            <%- include('../partial/input',{inputType:"password",id:"floatingPassword",placeholder:"Password",name:"passwordField",labelAs:"Password"}) %>
+            <%- include('../partials/input',{inputType:"password",id:"floatingPassword",placeholder:"Password",name:"passwordField",labelAs:"Password"}) %>
 
-            <%- include('../partial/formFooter',{accountStatus:"Don't",link:"./signup",linkLabel:"Signup" ,btnText:"Login"}) %>
+            <%- include('../partials/formFooter',{accountStatus:"Don't",link:"./signup",linkLabel:"Signup" ,btnText:"Login"}) %>
 
         </form>
     </main>
