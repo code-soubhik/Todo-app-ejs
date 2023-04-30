@@ -1,5 +1,5 @@
 const isLogIn = (req, res, next) => {
-    if (req.session.token) {
+    if (req.session && req.session.token) {
         return next();
     }
     return res.redirect("/")

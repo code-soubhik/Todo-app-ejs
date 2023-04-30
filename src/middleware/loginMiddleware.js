@@ -1,6 +1,6 @@
 const loginMiddleware = (req, res, next) => {
     
-    if (!req.session.token) {
+    if (!(req.session && req.session.token)) {
         return res.redirect("/login")
     }
     return next();
