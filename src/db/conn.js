@@ -9,13 +9,12 @@ const { default: mongoose } = require('mongoose');
 
 mongoose.connect(mongoUrl,{useNewUrlParser: true})
 .then(()=>console.log("Connected to the database"))
-.catch(()=>console.log("Error connecting to the database:", error.message))
+.catch((error)=>console.log("Error connecting to the database:", error))
 
 conn.use(session({
     secret: 'foo',
     resave: false,
     saveUninitialized: false,
-    // store: MongoStore.create({ mongoUrl: mongoUrl, mongoOptions: { useNewUrlParser: true } })
     store: MongoStore.create({ mongoUrl: mongoUrl})
 }));
 
