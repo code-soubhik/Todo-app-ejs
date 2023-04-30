@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const mongoUrl = "mongodb+srv://mytodo111:No89u9YyH4wikfrx@cluster0.bjtnivp.mongodb.net/Todo-app";
+const mongoUrl = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@${process.env.CLUSTER_NAME}.mongodb.net/${process.env.COLLECTION_NAME}`;
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true })
     .then(() => { console.log("Connected To Database") })

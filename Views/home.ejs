@@ -12,13 +12,39 @@
         crossorigin="anonymous"></script>
     <title>Todo </title>
     <style>
+        nav{
+            height: 100%;
+            background-color: #d8deff;
+            margin-bottom: 5vh;
+            min-height: 5vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+        .logo{
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .join{
+            font-size: 17px;
+            font-weight: 600;
+        }
+        .join>a{
+            text-decoration: none;
+            color: black;
+        }
+        body{
+           height: 100%;
+           min-height: 100vh;
+           position: relative;
+        }
         header>h1 {
             text-align: center;
-            margin-top: 5vh;
-            /* color: #0066ff; */
             text-decoration: underline;
         }
-        #TaskContainer{
+        #TaskContainer,
+        #editContainer {
             width: 100%;
             max-width: 75%;
             padding: 15px;
@@ -26,55 +52,228 @@
             background-color: #d8deff;
             border-radius: 10px;
         }
-        main{
+        main {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        #addBtn{
+        #addBtn,
+        #editBtn {
             max-width: 100px;
             padding: 5px 0;
         }
-        .btnContainer{
+        #addNewBtn {
+            max-width: 125px;
+            padding: 5px 0;
+        }
+        .btnContainer {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        #TodosContainer {
+            width: 100%;
+            max-width: 75%;
+            border-radius: 10px;
+            margin: 5vh 0 10vh 0 ;
+        }
+        #TodosContainer>h3 {
+            text-align: center;
+        }
+        .todos {
+            background-color: #d8deff;
+            height: 100%;
+            min-height: 30px;
+            padding: 5px 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .taskTitle {
+            margin: 0;
+        }
+        .iconContainer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 40px;
+        }
+        .iconContainer>svg {
+            cursor: pointer;
+        }
+        .iconContainer>svg:nth-child(1):hover {
+            color: rgb(0, 0, 255);
+        }
+        .iconContainer>svg:nth-child(2):hover {
+            color: rgb(255, 0, 0);
+        }
+        footer{
+            height: 100%;
+            width: 100%;
+            max-height: 5vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: #d8deff;
+            position: absolute;
+            bottom: 0;
+        }
+        footer>p{
+            margin: 0;
+            font-size: 15px;
+            font-weight: 500;
+            word-spacing: 9px;
+            letter-spacing: 2px;
         }
     </style>
 </head>
 
 <body>
+    <nav>
+        <div class="logo">ToDo</div>
+        <% if(id){ %>
+            <div class="join"><a href="/logout">Log out</a></div>
+        <% }else{ %>
+            <div class="join"><a href="/login">Log In</a></div>
+        <% } %>
+    </nav>
     <header>
         <h1>
             <%=currentDay%>
         </h1>
     </header>
     <main>
-        <form method="post" action="<%=id%>/addtask" id="TaskContainer">
+        <form method="post" action="/task" id="TaskContainer">
             <div class="mb-3">
                 <label for="titleControlInput" class="form-label">Task title</label>
-                <input type="text" class="form-control" id="titleControlInput" placeholder="Enter task title">
+                <input name="title" type="text" class="form-control" id="titleControlInput"
+                    placeholder="Enter task title" required>
             </div>
             <div class="mb-3">
                 <label for="descriptionControlInput" class="form-label">Task description</label>
-                <textarea class="form-control" id="descriptionControlInput" placeholder="Enter task description" rows="3"></textarea>
+                <textarea name="description" class="form-control" id="descriptionControlInput"
+                    placeholder="Enter task description" rows="3"></textarea>
             </div>
             <div class="btnContainer">
                 <button class="w-100 btn btn-lg btn-primary" type="submit" id="addBtn">Add</button>
             </div>
         </form>
 
-        <div id="cardContainer">
-            <h3>Todos</h3>
-            <div class="card">
-                
+        <% if(todo.length){%>
+            <!-- <form method="post" action="//edit/" id="editContainer"> -->
+            <div id="editContainer">
+                <div class="mb-3">
+                    <label for="editTitleControlInput" class="form-label">Edit new task title</label>
+                    <input name="title" type="text" class="form-control" id="editTitleControlInput"
+                        placeholder="Enter task title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="editDescriptionControlInput" class="form-label">Edit new Task description</label>
+                    <textarea name="description" class="form-control" id="editDescriptionControlInput"
+                        placeholder="Enter task description" rows="3"></textarea>
+                </div>
+                <div class="btnContainer">
+                    <button class="w-100 btn btn-lg btn-primary" id="addNewBtn">Add New</button>
+                    <button class="w-100 btn btn-lg btn-primary" id="editBtn">Edit</button>
+                </div>
             </div>
-        </div>
+            <%}%>
+
+                <% if(todo.length){ %>
+                    <div id="TodosContainer">
+                        <h3>Todo list</h3>
+                        <% todo.forEach((item)=>{ %>
+                            <div class="todos">
+                                <div class="taskTitleContainer">
+                                    <p class="taskTitle">
+                                        <%= item.sno %>.<%= item.Title %>
+                                    </p>
+                                </div>
+                                <div class="iconContainer">
+                                    <svg id="editIcon"
+                                        onclick="editTask('<%=item.sno%>','<%= item.Title%>','<%= item.Description%>')"
+                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path
+                                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                        <path fill-rule="evenodd"
+                                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                    </svg>
+                                    <svg onclick="deleteTask('<%=id%>','<%=item.sno%>')"
+                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+                    <% } %>
 
     </main>
     <footer>
-
+        <p>Made with &#10084;&#65039;</p>
     </footer>
+    <script>
+        const taskContainer = document.getElementById("TaskContainer");
+        const editContainer = document.getElementById("editContainer");
+        const addNewBtn = document.getElementById("addNewBtn");
+        const editBtn = document.getElementById("editBtn");
+        let key = null;
+
+        if (editContainer) {
+            editContainer.style.display = "none";
+            addNewBtn.addEventListener("click", () => {
+                editContainer.style.display = "none";
+                taskContainer.style.display = "block";
+            })
+            editBtn.addEventListener("click", async () => {
+                const editTitleControlInput = document.getElementById("editTitleControlInput").value;
+                const editDescriptionControlInput = document.getElementById("editDescriptionControlInput").value;
+                const editurl = `/<%=id%>/edit/${key}`
+                await fetch(editurl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: editTitleControlInput,
+                        description: editDescriptionControlInput
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                    .catch(error => console.error(error))
+                window.location.reload()
+            })
+        }
+
+        const editTask = (sno, taskTitle, taskDescription) => {
+            taskContainer.style.display = "none";
+            editContainer.style.display = "block";
+            editTitleControlInput.value = taskTitle;
+            editDescriptionControlInput.value = taskDescription;
+            key = sno;
+        }
+
+        async function deleteTask(id, key) {
+            const url = `/${id}/del/${key}`
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error(error))
+            window.location.reload()
+        }
+    </script>
+
 </body>
 
 </html>
