@@ -1,4 +1,4 @@
-Todo App with EJS
+#Todo App with EJS
 This is a simple Todo app built with Node.js and Express.js, using the EJS templating engine to render the views.
 
 Features
