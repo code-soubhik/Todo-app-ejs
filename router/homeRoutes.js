@@ -31,11 +31,11 @@ router.get("/", async (req, res) => {
                 todo = userData.mytodo;
             }
             res.render("home", { currentDay, todo, id })
-    else {
+        }
+        else {
                 res.render("home", { currentDay, todo: [], id: null })
             }
         }
-    }
     catch (error) {
         res.status(502).render('error', { errorMessage: "Something went wrong!" });
     }
