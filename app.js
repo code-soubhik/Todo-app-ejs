@@ -2,6 +2,7 @@ const ejs = require('ejs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const allRoutes = require('./router/allRoutes');
+const cors = require('cors');
 require('./db/conn')
 
 const app = express();
