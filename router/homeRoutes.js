@@ -22,21 +22,22 @@ router.get("/logout", isLogIn, (req, res) => {
 })
 
 router.get("/", async (req, res) => {
-    if (req.session && req.session.token) {
-        const id = req.session.token;
-        let todo = [];
-        try {
+    try {
+        if (req.session && req.session.token) {
+            const id = req.session.token;
+            let todo = [];
             const userData = await userTodoModel.findOne({ _id: id })
             if (userData) {
                 todo = userData.mytodo;
             }
             res.render("home", { currentDay, todo, id })
-        } catch (error) {
-            res.status(502).render('error', { errorMessage: "Something went wrong!" });
+    else {
+                res.render("home", { currentDay, todo: [], id: null })
+            }
         }
     }
-    else{
-        res.render("home", { currentDay, todo:[], id:null })
+    catch (error) {
+        res.status(502).render('error', { errorMessage: "Something went wrong!" });
     }
 })
 
