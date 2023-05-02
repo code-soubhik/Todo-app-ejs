@@ -1,9 +1,9 @@
-// require('dotenv').config();
+require('dotenv').config();
 const mongoose = require('mongoose');
 
-// const mongoUrl = process.env.DB_URL
+const mongoUrl = process.env.DB_URL
 
-mongoose.connect("mongodb+srv://mytodo111:No89u9YyH4wikfrx@cluster0.bjtnivp.mongodb.net/Todo-app",{
+mongoose.connect(mongoUrl,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 5000,
