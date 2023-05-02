@@ -2,8 +2,9 @@ require('dotenv').config();
 const { connect } = require('mongoose');
 
 const mongoUrl = process.env.DB_URL
+const mongoUrlData = "mongodb+srv://mytodo111:No89u9YyH4wikfrx@cluster0.bjtnivp.mongodb.net/Todo-app"
 
-connect(mongoUrl,{
+connect(mongoUrlData,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 5000,
