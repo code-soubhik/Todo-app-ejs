@@ -9,5 +9,5 @@ connect(mongoUrl,{
     serverSelectionTimeoutMS: 5000,
     socketTimeoutMS: 30000, // set the timeout to 30 seconds
 })
-.then(()=>console.log("Connected to the database"))
+.then(()=>console.log("Connected to the database","\nmongoUrl",mongoUrl))
 .catch((error)=>console.log("Error connecting to the database:", error))
